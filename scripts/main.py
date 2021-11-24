@@ -17,4 +17,4 @@ def get_data():
 
 
 tweet_list = get_data()
-tweet_keywords = cleaner(tweet_list)
+tweet_json = cleaner(tweet_list)

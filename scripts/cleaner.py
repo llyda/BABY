@@ -8,22 +8,24 @@ from nltk.stem import WordNetLemmatizer
 stop_words = set(stopwords.words('english'))
 lemma = WordNetLemmatizer()
 
+import json
+
 
 
 def cleaner(tweet_list):
+    '''combines different cleansing methods'''
     # clean tweets
     clean_tweets = [tweet_cleaner(x) for x in tweet_list]
     # remove empty strings
     no_empty_strings = [i for i in clean_tweets if i]
     # unicode
     uni_tweets = [unicode_maker(x) for x in no_empty_strings]
-    # tokinze
-    tokens = [text_to_token(s) for s in uni_tweets]
-    # lemmatize
-    lemmas = [get_lemm(s) for s in tokens]
-    # one long list of keywords
-    flattened = [word for sublist in lemmas for word in sublist]
-    return flattened
+    # remove numbers and punctuation
+    number_free = [number_punct(x) for x in uni_tweets]
+    # json as output of the function
+    jsonString = json.dumps(number_free)
+
+    return jsonString
 
 
 
@@ -46,7 +48,6 @@ def tweet_cleaner(tweet):
 
 
 
-
 def unicode_maker(text):
     # creating a unicode string
     text_encode = text.encode(encoding="ascii", errors="ignore")
@@ -57,6 +58,22 @@ def unicode_maker(text):
 
 
 
+def number_punct(sentence):
+    # remove numbers
+    number_free = ''.join(word for word in sentence if not word.isdigit())
+    # remove punctuation
+    punctuation_free = "".join(
+        [i for i in number_free if i not in string.punctuation])
+    # lower case
+    upper_free = punctuation_free.lower()
+
+    return upper_free
+
+
+
+
+
+'''we don't use tokens or lemmas for now'''
 
 def text_to_token(sentence):
     # remove numbers
