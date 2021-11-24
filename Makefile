@@ -93,3 +93,7 @@ create_bucket:
 
 # the command to run from the terminal:
 #			make upload_data
+
+run_api:
+	uvicorn api.fast:app --reload  # load web server with code autoreload
+
