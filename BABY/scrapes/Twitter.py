@@ -25,7 +25,7 @@ class Twitter():
         headers = {"Authorization": "Bearer {}".format(BEARER)}
         return headers
 
-    def tweets_from_user(self, user_id, max_results = 10):
+    def tweets_from_user(self, user_id, max_results = 100):
         endpoint = f'/2/users/{user_id}/tweets'
         url = BASE_URI + endpoint
 
@@ -39,7 +39,7 @@ class Twitter():
         }
         return (url, query_params)
 
-    def tweets_search_recent(self, keyword, start_date, end_date, max_results = 10):
+    def tweets_search_recent(self, keyword, start_date, end_date, max_results = 100):
         endpoint = '/2/tweets/search/recent'
         url = BASE_URI + endpoint
 
@@ -63,10 +63,18 @@ class Twitter():
             raise Exception(response.status_code, response.text)
         return response.json(), response.json()['meta']['next_token']
 
-    def ref(self, _data):
+    def ref(self, _data, author_name, segment):
         data = []
         for tweet in _data['data']:
-            data.append({'id': tweet['id'], 'text': tweet['text']})
+            data.append({
+                'id': tweet['id'],
+                'author_id': tweet['author_id'],
+                'created_at': tweet['created_at'],
+                'lang': tweet['lang'],
+                'text': tweet['text'],
+                'author_name': author_name,
+                'segment': segment}
+            )
         return data
 
 def dump(_data):
@@ -90,27 +98,47 @@ if __name__ == '__main__':
     headers = tw.create_headers()
 
     # Get accounts
-    accounts = get_accounts()
+    segments = get_accounts()
     # print(accounts)
+    total_scrape = 0
 
-    for account in accounts:
-        # Get tweets from User
-        url, params = tw.tweets_from_user(
-            account['id']
-        )
+    for segment in segments:
+        time.sleep(5)
+        print(f'Slept 5 seconds...')
+        _segment = segment['segment']
 
-        # Pagination
-        next_token = None
+        for account in segment["data"]:
+            # print(account)
+            _author_name = account["url"]
+            # Get tweets from User
+            url, params = tw.tweets_from_user(
+                account['id']
+            )
 
-        for i in range(0, 3):
-            name = account['url']
-            print(f'Scraping {name}, page {str(i)}')
-            try:
-                res, next_token = tw.connect_to_endpoint(url, headers, params, next_token=next_token)
-            except Exception as e:
-                print(f'Error: {e}')
-            finally:
-                data = tw.ref(res)
-                # Dump data every run
-                dump(data)
-                # print(json.dumps(data, indent=2))
+            # Pagination
+            next_token = None
+
+            for i in range(0, 20):
+                name = account['url']
+                print(f'Total Tweet Scraped: {str(total_scrape)}')
+                print(f'Scraping {name}, page {str(i)}')
+                try:
+                    res, next_token = tw.connect_to_endpoint(url, headers, params, next_token=next_token)
+                except Exception as e:
+                    print(f'Error: {e}')
+                finally:
+                    try:
+                        data = tw.ref(res, _author_name, _segment)
+                        # Dump data every run
+                        print(f'Tweet found: {str(len(data))}')
+                        total_scrape += len(data)
+                        dump(data)
+                        # print(json.dumps(data, indent=2))
+                    except Exception as e:
+                        print(f'Error: {e}')
+                    finally:
+                        pass
+
+# 38 accounts
+# 100 Tweets/req
+# next_token = 10?
