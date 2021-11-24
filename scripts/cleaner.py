@@ -4,11 +4,9 @@ import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-
+import json
 stop_words = set(stopwords.words('english'))
 lemma = WordNetLemmatizer()
-
-import json
 
 
 
