@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
     gpt3 = OpenAi(
-        model='davinci',
+        model='ada',
         search_model='ada',
         max_tokens=25
     )
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     # Call the Answers API endpoint with your parameters
     res = gpt3.answers(
-        question='What kind of cheese isn\'t yours?',
+        question='What do you call a lesbian dinosaur?',
         examples=examples,
         examples_context=examples_context,
         documents=documents
