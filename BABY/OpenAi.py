@@ -44,44 +44,72 @@ class OpenAi:
         )
         return response
 
+    def predict(self, question):
+        # Exemples for jokes
+        examples = [
+            ['Did you hear about the first restaurant to open on the moon?', 'It had great food, but no atmosphere.'],
+            ['What did one ocean say to the other ocean?','Nothing, it just waved.'],
+            ['Do you want to hear a construction joke?','Sorry, I’m still working on it.']
+        ]
+        examples_context = 'It had great food, but no atmosphere.'
+        documents = [
+            "Why did the bullet end up losing his job? He got fired.",
+            "What kind of shorts do clouds wear? Thunderpants",
+            "I entered ten puns in a contest to see which would win. No pun in ten did.",
+            "How do you measure a snake? In inches—they don’t have feet.",
+            "Where does a waitress with only one leg work? IHOP.",
+            "What does a house wear? Address!",
+            "Why are toilets always so good at poker? They always get a flush",
+            "Why is Peter Pan always flying? Because he Neverlands. (I love this joke because it never grows old.)",
+            "You heard the rumor going around about butter? Never mind, I shouldn’t spread it."
+        ]
+        res = self.answers(
+            question=question,
+            examples=examples,
+            examples_context=examples_context,
+            documents=documents
+        )
+        return res['answers']
+
 if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
     gpt3 = OpenAi(
-        model='ada',
+        model='davinci',
         search_model='ada',
         max_tokens=25
     )
 
-    # Exemples for jokes
-    examples = [
-        ['Did you hear about the first restaurant to open on the moon?', 'It had great food, but no atmosphere.'],
-        ['What did one ocean say to the other ocean?','Nothing, it just waved.'],
-        ['Do you want to hear a construction joke?','Sorry, I’m still working on it.']
-    ]
-    examples_context = 'It had great food, but no atmosphere.'
+    # # Exemples for jokes
+    # examples = [
+    #     ['Did you hear about the first restaurant to open on the moon?', 'It had great food, but no atmosphere.'],
+    #     ['What did one ocean say to the other ocean?','Nothing, it just waved.'],
+    #     ['Do you want to hear a construction joke?','Sorry, I’m still working on it.']
+    # ]
+    # examples_context = 'It had great food, but no atmosphere.'
 
-    documents = [
-        "Why did the bullet end up losing his job? He got fired.",
-        "What kind of shorts do clouds wear? Thunderpants",
-        "I entered ten puns in a contest to see which would win. No pun in ten did.",
-        "How do you measure a snake? In inches—they don’t have feet.",
-        "Where does a waitress with only one leg work? IHOP.",
-        "What does a house wear? Address!",
-        "Why are toilets always so good at poker? They always get a flush",
-        "Why is Peter Pan always flying? Because he Neverlands. (I love this joke because it never grows old.)",
-        "You heard the rumor going around about butter? Never mind, I shouldn’t spread it."
-    ]
+    # documents = [
+    #     "Why did the bullet end up losing his job? He got fired.",
+    #     "What kind of shorts do clouds wear? Thunderpants",
+    #     "I entered ten puns in a contest to see which would win. No pun in ten did.",
+    #     "How do you measure a snake? In inches—they don’t have feet.",
+    #     "Where does a waitress with only one leg work? IHOP.",
+    #     "What does a house wear? Address!",
+    #     "Why are toilets always so good at poker? They always get a flush",
+    #     "Why is Peter Pan always flying? Because he Neverlands. (I love this joke because it never grows old.)",
+    #     "You heard the rumor going around about butter? Never mind, I shouldn’t spread it."
+    # ]
 
-    # Call the Answers API endpoint with your parameters
-    res = gpt3.answers(
-        question='What do you call a lesbian dinosaur?',
-        examples=examples,
-        examples_context=examples_context,
-        documents=documents
-    )
+    # # Call the Answers API endpoint with your parameters
+    # res = gpt3.answers(
+    #     question='What do you call a lesbian dinosaur?',
+    #     examples=examples,
+    #     examples_context=examples_context,
+    #     documents=documents
+    # )
 
-    print(res['answers'])
+    # print(res['answers'])
+    print(gpt3.predict('What do you call a fly that doesn\'t have wings?'))
     # Test with jokes:
 
 
