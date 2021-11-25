@@ -62,7 +62,7 @@ def predict(model,
         )
 
         response = gpt3.predict_haiku(prompt, float(temperature), int(n))
-        return {'response': response[0]}
+        return {'response': response}
     except Exception as e:
         # Otherwise return error
         return {'response': str(e)}
