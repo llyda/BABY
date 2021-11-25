@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from BABY.OpenAi import OpenAi
-from BABY.HateSpeech import HateSpeechDetector
+# from BABY.HateSpeech import HateSpeechDetector
 import os
 from dotenv import load_dotenv
 
@@ -39,10 +39,11 @@ def predict(model, prompt, secret, hateSpeechDetector=False):
 
     # If HateSpeechDetectorActivated:
     if hateSpeechDetector:
-        hsc = HateSpeechDetector()
-        isHateSpeech = hsc.detect(prompt)
-        if isHateSpeech in ['Hate Speech', 'Offensive Language']:
-            return {'response': 'Error: We don\'t allow offensive language nor hate speech'}
+        # hsc = HateSpeechDetector()
+        # isHateSpeech = hsc.detect(prompt)
+        # if isHateSpeech in ['Hate Speech', 'Offensive Language']:
+        #     return {'response': 'Error: We don\'t allow offensive language nor hate speech'}
+        pass
 
     try:
         # Try to return answer
