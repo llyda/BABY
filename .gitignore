@@ -8,3 +8,5 @@ raw_data/
 .env
 *.json
 data/
+my_files/
+*.txt
