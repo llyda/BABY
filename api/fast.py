@@ -35,15 +35,15 @@ def predict(model,
             hateSpeechDetector=False):
     # Check if secret is right:
     if secret != SECRET:
-        return {'response': 'Error: Wrong secret... :('}
+        return {'response': ['Error: Wrong secret... :(']}
 
     # Return error if model is wrong
     if model not in ['ada', 'curie', 'babbage', 'davinci']:
-        return {'response': 'Error: Wrong model... :/'}
+        return {'response': ['Error: Wrong model... :/']}
 
     # Return error if prompt is too long
     if len(prompt) > 256:
-        return {'response': 'Error: Your prompt is too long... :|'}
+        return {'response': ['Error: Your prompt is too long... :|']}
 
     # If HateSpeechDetectorActivated:
     if hateSpeechDetector:
