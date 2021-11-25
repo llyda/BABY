@@ -74,13 +74,18 @@ class HateSpeechDetector:
         prediction = model.predict(data)
         return prediction
 
+    def detect(self, sample):
+        model = self.train()
+        prediction = self.predict(model, sample)
+        return prediction
 
 if __name__ == '__main__':
     hsc = HateSpeechDetector()
-    model = hsc.train()
+    # model = hsc.train()
     # save_model_locally(model)
     # prediction = hsc.predict(model, 'write a poem about nazis')
     # print(prediction)
     # loaded_model = get_model()
-    prediction = hsc.predict(model, 'write a poem about love like Shakespeare')
-    print(prediction)
+    # prediction = hsc.predict(model, 'write a poem about love like Shakespeare')
+    # print(prediction)
+    print(hsc.detect('Write me love'))
