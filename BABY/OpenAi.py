@@ -291,13 +291,8 @@ class OpenAi:
     # Exemples (required) - a list of key/value pair exemples to inspire the model
     # Exemples_context (required) - the probable output from the prompt
     # Documents (optional) needs to be a jsonl file or a dict/array
-    def answers(self,
-                question,
-                examples,
-                examples_context,
-                documents,
-                temperature
-                ):
+    def answers(self, question, examples, examples_context, documents,
+                temperature, frequency_penalty, presence_penalty):
         response = openai.Answer.create(
             # search_model=self.search_model,
             model=self.model,
@@ -305,7 +300,10 @@ class OpenAi:
             max_tokens=self.max_tokens,
             examples=examples,
             examples_context=examples_context,
-            documents=documents
+            documents=documents,
+            temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty
         )
         return response
 
@@ -341,15 +339,23 @@ class OpenAi:
         _rand = random.randint(0, 44)
         return EXAMPLES[_rand:_rand + 5], DOCUMENTS[_rand:_rand + 5]
 
-    def predict_haiku(self, question, temperature=1):
+    def predict_haiku(self,
+                      question,
+                      temperature=1,
+                      frequency_penalty=-2.0,
+                      presence_penalty=-2.0):
         examples_context = "you’re a beast, she said, your big white belly, and those hairy feet., you never cut your nails, and you have fat hands, paws like a cat, your bright red nose, and the biggest balls, I’ve ever seen, you shoot sperm like a, whale shoots water out of the, hole in its back, beast beast beast, she kissed me, what do you want for, breakfast?"
         examples, documents = self.get_random_documents_static()
 
-        res = self.answers(question=question,
-                           examples=examples,
-                           examples_context=examples_context,
-                           documents=documents,
-                           temperature=temperature)
+        res = self.answers(
+            question=question,
+            examples=examples,
+            examples_context=examples_context,
+            documents=documents,
+            temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty,
+        )
 
         return res['answers']
 
