@@ -1,6 +1,9 @@
 import os
 import openai
 from dotenv import load_dotenv
+import pandas as pd
+import json
+import random
 
 load_dotenv()
 
@@ -32,7 +35,13 @@ class OpenAi:
     # Exemples (required) - a list of key/value pair exemples to inspire the model
     # Exemples_context (required) - the probable output from the prompt
     # Documents (optional) needs to be a jsonl file or a dict/array
-    def answers(self, question, examples, examples_context, documents):
+    def answers(self,
+                question,
+                examples,
+                examples_context,
+                documents,
+                temperature
+                ):
         response = openai.Answer.create(
             # search_model=self.search_model,
             model=self.model,
@@ -44,104 +53,140 @@ class OpenAi:
         )
         return response
 
-    def predict(self, question):
-        # Exemples for jokes
-        examples = [
-            ['Did you hear about the first restaurant to open on the moon?', 'It had great food, but no atmosphere.'],
-            ['What did one ocean say to the other ocean?','Nothing, it just waved.'],
-            ['Do you want to hear a construction joke?','Sorry, I’m still working on it.']
-        ]
-        examples_context = 'It had great food, but no atmosphere.'
-        documents = [
-            "Why did the bullet end up losing his job? He got fired.",
-            "What kind of shorts do clouds wear? Thunderpants",
-            "I entered ten puns in a contest to see which would win. No pun in ten did.",
-            "How do you measure a snake? In inches—they don’t have feet.",
-            "Where does a waitress with only one leg work? IHOP.",
-            "What does a house wear? Address!",
-            "Why are toilets always so good at poker? They always get a flush",
-            "Why is Peter Pan always flying? Because he Neverlands. (I love this joke because it never grows old.)",
-            "You heard the rumor going around about butter? Never mind, I shouldn’t spread it."
-        ]
-        res = self.answers(
-            question=question,
-            examples=examples,
-            examples_context=examples_context,
-            documents=documents
-        )
+    # Generate Random Exemples/Documents from the dataset provided
+    # Poorly reformated yet
+    def get_random_documents(self):
+        df = pd.read_csv('data/poems.csv')[['author', 'content']]
+        df['author'] = df['author'].str.lower()
+        df['content'] = df['content'].str.replace('\r\n', ' ')
+
+        # Generate random documents
+        _amount = 100
+
+        # Generate random examples
+        examples = []
+        sample_df = df.sample(frac=1).reset_index(drop=True)[:_amount]
+        for sample in sample_df.iterrows():
+            # print(sample[1][1])
+            if len(sample[1][1]) < 2048:
+                examples.append(
+                    [f'Write a poem like {sample[1][0]}', sample[1][1]])
+
+
+        documents = []
+        sample_df = df.sample(frac=1).reset_index(drop=True)[:_amount]
+        for sample in sample_df.iterrows():
+            if len(sample[1][1]) < 2048:
+                documents.append(sample[1][1])
+
+        return examples[:5], documents[:5]
+
+    def predict_haiku(self, question, temperature=1):
+        examples_context = "you’re a beast, she said, your big white belly, and those hairy feet., you never cut your nails, and you have fat hands, paws like a cat, your bright red nose, and the biggest balls, I’ve ever seen, you shoot sperm like a, whale shoots water out of the, hole in its back, beast beast beast, she kissed me, what do you want for, breakfast?"
+        examples, documents = self.get_random_documents()
+
+        res = self.answers(question=question,
+                           examples=examples,
+                           examples_context=examples_context,
+                           documents=documents,
+                           temperature=temperature)
+
         return res['answers']
+
+    def predict_haiku_test(self, question, examples, examples_context, documents):
+        res = self.answers(question=question,
+                           examples=examples,
+                           examples_context=examples_context,
+                           documents=documents)
+        return res
 
 if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
     gpt3 = OpenAi(
         model='davinci',
-        search_model='ada',
-        max_tokens=25
+        search_model='curie',
+        max_tokens=70
     )
 
+    # print(gpt3.predict_haiku('Write a poem for my mom', temperature=0.9))
+
+    exemples, documents = gpt3.get_random_documents()
+
+    print(json.dumps(exemples, indent=2))
+    print(json.dumps(documents, indent=2))
+
+
+
+
+
+
+
+
+
+
+
+
     # # Exemples for jokes
+    # prompt_start = 'Write a poem like'
     # examples = [
-    #     ['Did you hear about the first restaurant to open on the moon?', 'It had great food, but no atmosphere.'],
-    #     ['What did one ocean say to the other ocean?','Nothing, it just waved.'],
-    #     ['Do you want to hear a construction joke?','Sorry, I’m still working on it.']
+    #     [
+    #         f'{prompt_start} Muddy Waters',
+    #         'I hear a lotta buzzing, sound like my little honey bee, I hear a lotta buzzing, sound like my little honey bee,   She been all around the world making honey, But now she is coming back home to me.'
+    #     ],
+    #     [
+    #         f'{prompt_start} Roberto Bolano',
+    #         'I dreamt of a difficult case, I saw corridors filled with cops, I saw interrogations left unresolved, The ignominious archives, And then I saw the detective, Return to the scene of the crime, Tranquil and alone.'
+    #     ],
+    #     [
+    #         f'{prompt_start} Robert Frost',
+    #         'Whose woods these are I think I know, His house is in the village though, He will not see me stopping here, To watch his woods fill up with snow.'
+    #     ]
     # ]
-    # examples_context = 'It had great food, but no atmosphere.'
+    # examples_context = 'Whose woods these are I think I know, His house is in the village though, He will not see me stopping here, To watch his woods fill up with snow.'
 
     # documents = [
-    #     "Why did the bullet end up losing his job? He got fired.",
-    #     "What kind of shorts do clouds wear? Thunderpants",
-    #     "I entered ten puns in a contest to see which would win. No pun in ten did.",
-    #     "How do you measure a snake? In inches—they don’t have feet.",
-    #     "Where does a waitress with only one leg work? IHOP.",
-    #     "What does a house wear? Address!",
-    #     "Why are toilets always so good at poker? They always get a flush",
-    #     "Why is Peter Pan always flying? Because he Neverlands. (I love this joke because it never grows old.)",
-    #     "You heard the rumor going around about butter? Never mind, I shouldn’t spread it."
+    #     "you’re a beast, she said, your big white belly, and those hairy feet., you never cut your nails, and you have fat hands, paws like a cat, your bright red nose, and the biggest balls, I’ve ever seen, you shoot sperm like a, whale shoots water out of the, hole in its back., beast beast beast,, she kissed me,, what do you want for, breakfast?"
     # ]
 
-    # # Call the Answers API endpoint with your parameters
-    # res = gpt3.answers(
-    #     question='What do you call a lesbian dinosaur?',
-    #     examples=examples,
-    #     examples_context=examples_context,
-    #     documents=documents
-    # )
+    # print(gpt3.predict_haiku('Write a poem about fish', examples, examples_context, documents))
 
-    # print(res['answers'])
-    print(gpt3.predict('What do you call a fly that doesn\'t have wings?'))
-    # Test with jokes:
+    # # Clean DF
+    # df = pd.read_csv('data/poems.csv')[['author', 'content']]
+    # df['author'] = df['author'].str.lower()
+    # df['content'] = df['content'].str.replace('\r\n', ' ')
 
+    # _amount = 100
+    # # Generate random examples
+    # examples = []
+    # sample_df = df.sample(frac=1).reset_index(drop=True)[:_amount]
+    # for sample in sample_df.iterrows():
+    #     # print(sample[1][1])
+    #     if len(sample[1][1]) < 2048:
+    #         examples.append(
+    #             [f'Write a poem like {sample[1][0]}', sample[1][1]])
 
-    # Answers params exemples
-    #     {
-    #   "documents": ["Puppy A is happy.", "Puppy B is sad."],
-    #   "question": "which puppy is happy?",
-    #   "search_model": "ada",
-    #   "model": "curie",
-    #   "examples_context": "In 2017, U.S. life expectancy was 78.6 years.",
-    #   "examples": [["What is human life expectancy in the United States?","78 years."]],
-    #   "max_tokens": 5,
-    #   "stop": ["\n", "<|endoftext|>"]
-    # }
+    # # Generate random context
+    # fail = True
+    # while fail:
+    #     _examples_context = sample_df['content'][random.randint(0, _amount)]
+    #     if len(sample_df['content'][random.randint(0, _amount)]) < 2048:
+    #         examples_context = _examples_context
+    #         fail = False
 
-    # Exemple of response
-    #  {
-    #   "answers": [
-    #     "puppy A."
-    #   ],
-    #   "completion": "cmpl-2euVa1kmKUuLpSX600M41125Mo9NI",
-    #   "model": "curie:2020-05-03",
-    #   "object": "answer",
-    #   "search_model": "ada",
-    #   "selected_documents": [
-    #     {
-    #       "document": 0,
-    #       "text": "Puppy A is happy. "
-    #     },
-    #     {
-    #       "document": 1,
-    #       "text": "Puppy B is sad. "
-    #     }
-    #   ]
-    # }
+    # # Generate random documents
+    # documents = []
+    # sample_df = df.sample(frac=1).reset_index(drop=True)[:_amount]
+    # for sample in sample_df.iterrows():
+    #     if len(sample[1][1]) < 2048:
+    #         documents.append(sample[1][1])
+
+    # print(json.dumps(examples, indent=2))
+    # print(examples_context)
+    # print(json.dumps(documents, indent=2))
+
+    # examples_context = 'Supper comes at five o\'clock, At six, the evening star, My lover comes at eight o\'clock, But eight o\'clock is far, How could I bear my pain all day, Unless I watched to see, The clock-hands laboring to bring Eight o\'clock to me.'
+
+    # print(
+    #     gpt3.predict_haiku_test('Write a poem about how today was a terrible', examples[:5], examples_context,
+    #                     documents[:15]))
