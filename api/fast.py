@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from BABY.OpenAi import OpenAi
-from BABY.HateSpeech import HateSpeechDetector
+# from BABY.HateSpeech import HateSpeechDetector
 import os
 from dotenv import load_dotenv
 
