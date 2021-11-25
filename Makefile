@@ -59,10 +59,10 @@ pypi:
 # ----------------------------------
 
 # project id - replace with your GCP project id
-PROJECT_ID=generated-atlas-328014
+PROJECT_ID=le-wagon-735-babyproject
 
 # bucket name - replace with your GCP bucket name
-BUCKET_NAME=wagon-data-735-babyproject
+BUCKET_NAME=wagon-data-735-project-baby
 
 # choose your region from https://cloud.google.com/storage/docs/locations#available_locations
 REGION=europe-west1
@@ -96,4 +96,3 @@ create_bucket:
 
 run_api:
 	uvicorn api.fast:app --reload  # load web server with code autoreload
-
