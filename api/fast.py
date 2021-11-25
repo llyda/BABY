@@ -58,7 +58,7 @@ def predict(model,
         gpt3 = OpenAi(
             model=model,
             search_model='curie',
-            max_tokens=max_tokens
+            max_tokens=int(max_tokens)
         )
 
         response = gpt3.predict_haiku(prompt, float(temperature), int(n))
