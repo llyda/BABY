@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from BABY.OpenAi import OpenAi
-# from BABY.HateSpeech import HateSpeechDetector
+from BABY.HateSpeech import HateSpeechDetector
 import os
 from dotenv import load_dotenv
 
@@ -24,7 +24,7 @@ def index():
     return {"greeting": "This is BABY!"}
 
 @app.get("/predict")
-def predict(model, prompt, secret, hateSpeechDetector=False):
+def predict(model, prompt, secret, temperature, hateSpeechDetector=False):
     # Check if secret is right:
     if secret != SECRET:
         return {'response': 'Error: Wrong secret... :('}
@@ -49,11 +49,11 @@ def predict(model, prompt, secret, hateSpeechDetector=False):
         # Try to return answer
         gpt3 = OpenAi(
             model=model,
-            search_model='ada',
+            search_model='curie',
             max_tokens=25
         )
 
-        response = gpt3.predict(prompt)
+        response = gpt3.predict_haiku(prompt, float(temperature))
         return {'response': response[0]}
     except Exception as e:
         # Otherwise return error
