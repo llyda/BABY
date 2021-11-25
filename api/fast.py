@@ -5,6 +5,8 @@ from BABY.OpenAi import OpenAi
 import os
 from dotenv import load_dotenv
 
+# API
+
 load_dotenv()
 
 SECRET = os.getenv("SECRET")
