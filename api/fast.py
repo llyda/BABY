@@ -26,7 +26,13 @@ def index():
     return {"greeting": "This is BABY!"}
 
 @app.get("/predict")
-def predict(model, prompt, secret, temperature, hateSpeechDetector=False):
+def predict(model,
+            prompt,
+            secret,
+            temperature,
+            n,
+            max_tokens,
+            hateSpeechDetector=False):
     # Check if secret is right:
     if secret != SECRET:
         return {'response': 'Error: Wrong secret... :('}
@@ -52,10 +58,10 @@ def predict(model, prompt, secret, temperature, hateSpeechDetector=False):
         gpt3 = OpenAi(
             model=model,
             search_model='curie',
-            max_tokens=25
+            max_tokens=max_tokens
         )
 
-        response = gpt3.predict_haiku(prompt, float(temperature))
+        response = gpt3.predict_haiku(prompt, float(temperature), int(n))
         return {'response': response[0]}
     except Exception as e:
         # Otherwise return error
