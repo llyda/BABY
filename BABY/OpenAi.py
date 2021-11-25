@@ -292,7 +292,7 @@ class OpenAi:
     # Exemples_context (required) - the probable output from the prompt
     # Documents (optional) needs to be a jsonl file or a dict/array
     def answers(self, question, examples, examples_context, documents,
-                temperature, frequency_penalty, presence_penalty):
+                temperature, n):
         response = openai.Answer.create(
             # search_model=self.search_model,
             model=self.model,
@@ -302,8 +302,7 @@ class OpenAi:
             examples_context=examples_context,
             documents=documents,
             temperature=temperature,
-            frequency_penalty=frequency_penalty,
-            presence_penalty=presence_penalty
+            n=n
         )
         return response
 
@@ -342,8 +341,7 @@ class OpenAi:
     def predict_haiku(self,
                       question,
                       temperature=1,
-                      frequency_penalty=-2.0,
-                      presence_penalty=-2.0):
+                      n=1):
         examples_context = "you’re a beast, she said, your big white belly, and those hairy feet., you never cut your nails, and you have fat hands, paws like a cat, your bright red nose, and the biggest balls, I’ve ever seen, you shoot sperm like a, whale shoots water out of the, hole in its back, beast beast beast, she kissed me, what do you want for, breakfast?"
         examples, documents = self.get_random_documents_static()
 
@@ -353,8 +351,7 @@ class OpenAi:
             examples_context=examples_context,
             documents=documents,
             temperature=temperature,
-            frequency_penalty=frequency_penalty,
-            presence_penalty=presence_penalty,
+            n=n
         )
 
         return res['answers']
@@ -372,15 +369,15 @@ if __name__ == '__main__':
     gpt3 = OpenAi(
         model='davinci',
         search_model='curie',
-        max_tokens=70
+        max_tokens=100
     )
 
-    # print(gpt3.predict_haiku('Write a poem for my mom', temperature=0.9))
+    print(gpt3.predict_haiku('Write a poem for my mother', temperature=0.9))
 
-    exemples, documents = gpt3.get_random_documents_static()
+    # exemples, documents = gpt3.get_random_documents_static()
 
-    print(json.dumps(exemples, indent=2))
-    print(json.dumps(documents, indent=2))
+    # print(json.dumps(exemples, indent=2))
+    # print(json.dumps(documents, indent=2))
 
 
 
