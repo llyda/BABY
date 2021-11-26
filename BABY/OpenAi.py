@@ -4,18 +4,21 @@ from dotenv import load_dotenv
 import pandas as pd
 import json
 import random
-from data import get_data_prompt_help
+from google.cloud import storage
+
+BUCKET_NAME = 'wagon-data-735-babyproject'
+BUCKET_PROMPT_HELP = 'train_data/prompt_help.json'
+# from data import get_data_prompt_help
 
 load_dotenv()
 
 # Load your API key from a .env file
 openai.api_key = os.getenv("OPEN_AI_KEY")
 
-def get_data():
-    with open('prompt_help.json', 'r') as myfile:
-        data = myfile.read()
-    obj = json.loads(data)
-    return obj
+def get_data_prompt_help():
+    df = pd.read_json(f"gs://{BUCKET_NAME}/{BUCKET_PROMPT_HELP}")
+    res = json.loads(df.to_json(orient="columns"))
+    return res
 
 class OpenAi:
 
@@ -85,6 +88,7 @@ if __name__ == '__main__':
     )
 
     data = get_data_prompt_help()['rap']
+    # print(data)
     print(
         gpt3.answers('Write a rap song vers about drinking and gambling', data['examples'], data['examples_context'], data['documents'],
                     0.9, 2, _type='rap'))
