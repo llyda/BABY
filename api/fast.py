@@ -32,7 +32,23 @@ def predict(model,
             temperature,
             n,
             max_tokens,
+            _type,
             hateSpeechDetector=False):
+    # _type:
+    # - rap, bobdylan, haiku, classical (string)
+
+    # prompt:
+    # - Write a rap song verse about living in San Francisco (string)
+
+    # secret:
+    # - Password to access the API (string)
+
+    # Temperature
+    # - 0 to 1 (float)
+
+    # n
+    # - Number of answers to return (max=4)
+
     # Check if secret is right:
     if secret != SECRET:
         return {'response': ['Error: Wrong secret... :(']}
@@ -42,8 +58,13 @@ def predict(model,
         return {'response': ['Error: Wrong model... :/']}
 
     # Return error if prompt is too long
-    if len(prompt) > 256:
+    if len(prompt) > 64:
         return {'response': ['Error: Your prompt is too long... :|']}
+
+    # Limit the number of potential answers
+    if int(n) > 4:
+        return {'response': ['Error: You can\'t request that many answers. Try 2!']}
+
 
     # If HateSpeechDetectorActivated:
     if hateSpeechDetector:
@@ -61,7 +82,14 @@ def predict(model,
             max_tokens=int(max_tokens)
         )
 
-        response = gpt3.predict_haiku(prompt, float(temperature), int(n))
+        # Get the params from our API wrapper
+        response = gpt3.answers(
+            prompt,
+            float(temperature),
+            int(n),
+            str(_type)
+        )
+
         return {'response': response}
     except Exception as e:
         # Otherwise return error
