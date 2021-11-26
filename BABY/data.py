@@ -36,4 +36,5 @@ if __name__ == '__main__':
     save_output('adatest', 'ada is good', 'write me a bukowski', 'xyz',
                 'go fck yrself', '2021-02')
     df = pd.read_json(f"gs://{BUCKET_NAME}/{BUCKET_OUTPUT_FILE}")
+
     print(df)

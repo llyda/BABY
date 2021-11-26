@@ -59,6 +59,10 @@ yarl==1.7.2
 # data science
 numpy
 pandas
+nltk
+sklearn
+termcolor
+joblib
 
 # tests/linter
 black

@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from BABY.OpenAi import OpenAi
+# from BABY.HateSpeech import HateSpeechDetector
 import os
 from dotenv import load_dotenv
+
+# API
 
 load_dotenv()
 
@@ -23,29 +26,43 @@ def index():
     return {"greeting": "This is BABY!"}
 
 @app.get("/predict")
-def predict(model, prompt, secret):
+def predict(model,
+            prompt,
+            secret,
+            temperature,
+            n,
+            max_tokens,
+            hateSpeechDetector=False):
     # Check if secret is right:
     if secret != SECRET:
-        return {'error': 'Wrong secret... :('}
+        return {'response': ['Error: Wrong secret... :(']}
 
     # Return error if model is wrong
     if model not in ['ada', 'curie', 'babbage', 'davinci']:
-        return {'error': 'Wrong model... :/'}
+        return {'response': ['Error: Wrong model... :/']}
 
     # Return error if prompt is too long
     if len(prompt) > 256:
-        return {'error': 'Your prompt is too long... :|'}
+        return {'response': ['Error: Your prompt is too long... :|']}
+
+    # If HateSpeechDetectorActivated:
+    if hateSpeechDetector:
+        # hsc = HateSpeechDetector()
+        # isHateSpeech = hsc.detect(prompt)
+        # if isHateSpeech in ['Hate Speech', 'Offensive Language']:
+        #     return {'response': 'Error: We don\'t allow offensive language nor hate speech'}
+        pass
 
     try:
         # Try to return answer
         gpt3 = OpenAi(
             model=model,
-            search_model='ada',
-            max_tokens=25
+            search_model='curie',
+            max_tokens=int(max_tokens)
         )
 
-        response = gpt3.predict(prompt)
-        return {'response': response[0]}
+        response = gpt3.predict_haiku(prompt, float(temperature), int(n))
+        return {'response': response}
     except Exception as e:
         # Otherwise return error
-        return {'error': str(e)}
+        return {'response': str(e)}
