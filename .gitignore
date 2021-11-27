@@ -7,3 +7,9 @@ raw_data/
 **/__pycache__/
 .env
 *.json
+<<<<<<< HEAD
+=======
+data/
+my_files/
+*.txt
+>>>>>>> 735a229f78cf7cbdbdc0c42ebcc9937cfe1bdb26
