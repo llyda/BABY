@@ -120,6 +120,30 @@ class OpenAi:
         )
         return response
 
+    def completion(
+        self,
+        prompt,
+        temperature=1,
+        n=1,
+        top_p=1,
+        presence_penalty=0,
+        frequency_penalty=0
+        ):
+
+        response = openai.Completion.create(
+            # search_model=self.search_model,
+            model=self.model,
+            prompt=prompt,
+            max_tokens=self.max_tokens,
+            temperature=temperature,
+            n=n,
+            top_p=top_p,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty
+        )
+        return response
+
+
 if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
@@ -131,6 +155,9 @@ if __name__ == '__main__':
 
     data = get_data_prompt_help()['rap']
     # print(data)
+    # print(
+    #     gpt3.answers('Write a rap song vers about drinking and gambling', data['examples'], data['examples_context'], data['documents'],
+    #                 0.9, 2, _type='rap'))
+
     print(
-        gpt3.answers('Write a rap song vers about drinking and gambling', data['examples'], data['examples_context'], data['documents'],
-                    0.9, 2, _type='rap'))
+        gpt3.completion('Write a haiku about flowers'))
