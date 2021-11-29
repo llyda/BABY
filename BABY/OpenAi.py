@@ -1,4 +1,5 @@
 import os
+from google.resumable_media.requests import upload
 import openai
 from dotenv import load_dotenv
 import pandas as pd
@@ -6,9 +7,17 @@ import json
 import random
 from google.cloud import storage
 
+from BABY.data import save_data
+
 BUCKET_NAME = 'wagon-data-735-babyproject'
 BUCKET_PROMPT_HELP = 'train_data/prompt_help.json'
+BUCKET_OUTPUT_FILE = 'output_data/output.json'
+
 # from data import get_data_prompt_help
+ROOT_DIR = os.path.dirname(
+    os.path.abspath(__file__))  # This is your Project Root
+PATH_TO_CREDENTIALS = os.path.join(ROOT_DIR,
+                                   'generated-atlas-328014-38a22af365d4.json')
 
 load_dotenv()
 credentials = {
@@ -28,8 +37,7 @@ credentials = {
 openai.api_key = os.getenv("OPEN_AI_KEY")
 
 def get_data_prompt_help():
-    client = storage.Client.from_service_account_json(
-        '../../BABY/generated-atlas-328014-38a22af365d4.json')
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
     bucket = client.get_bucket(BUCKET_NAME)
     blob = bucket.get_blob(BUCKET_PROMPT_HELP)
 
@@ -37,6 +45,21 @@ def get_data_prompt_help():
     # res = json.loads(df.to_json(orient="columns"))
 
     return json.loads(blob.download_as_string())
+
+def upload_data_output(model_id, model_description, user_prompt,
+                       user_documents, answer, timestamp):
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.get_blob(BUCKET_OUTPUT_FILE)
+
+    df = pd.read_json(blob.download_as_string())
+    dict = {"model_id": model_id, "model_description": model_description, "user_prompt": user_prompt, "user_documents": user_documents, "answer": answer, "timestamp": timestamp}
+    df = df.append(dict, ignore_index = True)
+    # df = pd.DataFrame.from_dict(dict)
+
+    blob.upload_from_string(data=df.to_json(),
+                            content_type='application/json')
+    return
 
 class OpenAi:
 
@@ -117,24 +140,32 @@ class OpenAi:
             presence_penalty=presence_penalty,
             frequency_penalty=frequency_penalty
         )
+
         return response
+
+    def output(self, prompt, res):
+        upload_data_output(res['model'], '', prompt,
+                       '', res['choices'][0]['text'], res['created'])
+        return
 
 
 if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
-    # gpt3 = OpenAi(
-    #     model='davinci',
-    #     search_model='curie',
-    #     max_tokens=60
-    # )
+    gpt3 = OpenAi(
+        model='davinci',
+        search_model='curie',
+        max_tokens=150
+    )
 
-    data = get_data_prompt_help()
-    print(json.dumps(data, indent=2))
-    # print(data)
+    # data = get_data_prompt_help()
+    # print(json.dumps(data, indent=2))
+    # # print(data)
     # print(
-    #     gpt3.answers('Write a rap song vers about drinking and gambling', data['examples'], data['examples_context'], data['documents'],
+    #     gpt3.answers('Write a rap song vers about drinking and gambling',
     #                 0.9, 2, _type='rap'))
 
-    # print(
-    #     gpt3.completion('Write a haiku about flowers'))
+    prompt = 'The following is a haiku about cryptos and nft'
+    res = gpt3.completion(prompt)
+    print(res)
+    # gpt3.output(prompt, res)
