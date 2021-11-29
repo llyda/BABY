@@ -83,14 +83,21 @@ def predict(model,
         )
 
         # Get the params from our API wrapper
-        response = gpt3.answers(
-            prompt,
-            float(temperature),
-            int(n),
-            str(_type)
-        )
+        # response = gpt3.answers(
+        #     prompt,
+        #     float(temperature),
+        #     int(n),
+        #     str(_type)
+        # )
 
-        return {'response': response}
+        response = gpt3.completion(prompt,
+                                   float(temperature),
+                                   n=1,
+                                   top_p=1,
+                                   presence_penalty=0,
+                                   frequency_penalty=0)
+
+        return {'response': response['choices']}
     except Exception as e:
         # Otherwise return error
         return {'response': str(e)}
