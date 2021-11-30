@@ -37,12 +37,12 @@ def predict(model,
         return {'response': 'Error: Wrong secret... :('}
 
     # Return error if model is wrong
-    # print(model)
-    # if model not in [
-    #         'ada', 'curie', 'babbage', 'davinci',
-    #         'ft-Bo8TJyUWYv4heiCZuBtydf3B'
-    # ]:
-        # return {'response': 'Error: Wrong model... :/'}
+    print(model)
+    if model not in [
+            'ada', 'curie', 'babbage', 'davinci',
+            'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49'
+    ]:
+        return {'response': 'Error: Wrong model... :/'}
 
     # Return error if prompt is too long
     if len(prompt) > 64:

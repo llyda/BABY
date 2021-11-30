@@ -35,6 +35,7 @@ credentials = {
 
 # Load your API key from a .env file
 openai.api_key = os.getenv("OPEN_AI_KEY")
+# openai.api_key = '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'
 
 def get_data_prompt_help():
     client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
@@ -153,10 +154,9 @@ if __name__ == '__main__':
     # Initialise OpenAi with model and search model you desire
     # Be aware of the max number of tokens it returns
     gpt3 = OpenAi(
-        model='davinci',
+        model='curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49',
         search_model='curie',
-        max_tokens=150
-    )
+        max_tokens=150)
 
     # data = get_data_prompt_help()
     # print(json.dumps(data, indent=2))
