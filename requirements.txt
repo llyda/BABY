@@ -84,5 +84,6 @@ memoized-property
 termcolor
 
 # data_cleaning
+jupyterlab
 emoji
 nltk
