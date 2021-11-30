@@ -39,7 +39,7 @@ def predict(model,
     # Return error if model is wrong
     if model not in [
             'ada', 'curie', 'babbage', 'davinci',
-            'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49'
+            'ft-Bo8TJyUWYv4heiCZuBtydf3B'
     ]:
         return {'response': 'Error: Wrong model... :/'}
 
