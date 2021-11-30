@@ -28,6 +28,7 @@ def index():
 @app.get("/predict")
 def predict(model,
             prompt,
+            personality_type,
             secret,
             temperature,
             n,
@@ -90,7 +91,10 @@ def predict(model,
         #     str(_type)
         # )
 
-        response = gpt3.completion(prompt,
+        # Building Prompt HERE
+        _prompt = f"This is a {_type}, written by the fake personality of {personality_type} about {prompt}"
+
+        response = gpt3.completion(_prompt,
                                    float(temperature),
                                    n=1,
                                    top_p=1,
