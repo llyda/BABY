@@ -10,6 +10,9 @@ BUCKET_PROMPT_HELP = 'train_data/prompt_help.json'
 BUCKET_OUTPUT_FILE = 'output_data/output.json'
 #MODEL_NAME = 'baby'
 #MODEL_VERSION = 'v0.1'
+ROOT_DIR = os.path.dirname(
+    os.path.abspath(__file__))  # This is your Project Root
+PATH_TO_CREDENTIALS = os.path.join(ROOT_DIR, 'generated-atlas-328014-38a22af365d4.json')
 
 # Get Twitter Dump Data (scraped)
 def get_data():
@@ -24,10 +27,10 @@ def get_output():
     return df
 
 # Get prompt help data (examples/context/documents)
-def get_data_prompt_help():
-    df = pd.read_json(f"gs://{BUCKET_NAME}/{BUCKET_PROMPT_HELP}")
-    res = json.loads(df.to_json(orient="columns"))
-    return res
+# def get_data_prompt_help():
+#     df = pd.read_json(f"gs://{BUCKET_NAME}/{BUCKET_PROMPT_HELP}")
+#     res = json.loads(df.to_json(orient="columns"))
+#     return res
 
 # Save the cleaned data
 def save_data(df):
@@ -48,6 +51,40 @@ def save_output(model_id, model_description, user_prompt, user_documents, answer
     print("Updated output.json and saved to google cloud bucket")
 
 
+def get_data_prompt_help():
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.get_blob(BUCKET_PROMPT_HELP)
+
+    return json.loads(blob.download_as_string())
+
+def get_data_output():
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.get_blob(BUCKET_OUTPUT_FILE)
+
+    print(blob.download_as_string())
+
+    df = pd.read_json(blob.download_as_string())
+    return df
+
+
+def upload_data_output(model_id, model_description, user_prompt,
+                       user_documents, answer, timestamp):
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.get_blob(BUCKET_OUTPUT_FILE)
+
+    df = pd.read_json(blob.download_as_string())
+    dict = {"model_id": model_id, "model_description": model_description, "user_prompt": user_prompt, "user_documents": user_documents, "answer": answer, "timestamp": timestamp}
+    df = df.append(dict, ignore_index = True)
+    # df = pd.DataFrame.from_dict(dict)
+
+    blob.upload_from_string(data=df.to_json(),
+                            content_type='application/json')
+    return df
+
+
 if __name__ == '__main__':
     #df = get_data()
     # save_output('adatest', 'ada is good', 'write me a bukowski', 'xyz',
@@ -56,4 +93,9 @@ if __name__ == '__main__':
 
     # print(df)
 
-    print(json.dumps(get_data_prompt_help(), indent=4))
+
+    # print(
+    #     upload_data_output('ada', 'ada is good', 'this is brombt', 'xyz', 'blabla',
+    #                        '1970-01-01 00:00:00.000000001'))
+
+    print(get_data_output())
