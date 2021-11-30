@@ -54,7 +54,7 @@ def predict(model,
 
     # Split prompt into words:
     # if ',' in prompt:
-    topics = prompt.split(',').strip()
+    topics = prompt.split(',')
     print(topics)
 
     # Hate Speech Detector
@@ -88,7 +88,11 @@ def predict(model,
         # )
 
         # Building Prompt HERE
-        _prompt = f"This is a {_type} about {_topics}, written by the fake personality of {personality_type}"
+        if personality_type == 'myself':
+            _prompt = f"The following is a {_type} about {_topics}"
+        else:
+            _prompt = f"The following is a {_type} about {_topics} by {personality_type}"
+
         print(_prompt)
 
         response = gpt3.completion(_prompt,
@@ -97,6 +101,8 @@ def predict(model,
                                    top_p=1,
                                    presence_penalty=0,
                                    frequency_penalty=0)
+
+        print(response)
 
         return {'response': response['choices'][0]['text']}
     except Exception as e:
