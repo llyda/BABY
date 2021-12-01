@@ -34,7 +34,7 @@ credentials = {
 }
 
 # Load your API key from a .env file
-openai.api_key = os.getenv("OPEN_AI_KEY")
+# openai.api_key = os.getenv("OPEN_AI_KEY")
 # openai.api_key = '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'
 
 def get_data_prompt_help():
@@ -68,7 +68,8 @@ class OpenAi:
         self,
         model,
         search_model,
-        max_tokens
+        max_tokens,
+        apiKey=None
         ):
         # Model to use for the prediction
         self.model = model
@@ -76,6 +77,12 @@ class OpenAi:
         self.search_model = search_model
         # Define a maximum number of tokens
         self.max_tokens = max_tokens
+        self.apiKey = apiKey
+
+        if self.apiKey:
+            openai.api_key = self.apiKey
+        else:
+            openai.api_key = os.getenv("OPEN_AI_KEY")
 
     def completion(self):
         return
@@ -127,7 +134,8 @@ class OpenAi:
         n=1,
         top_p=1,
         presence_penalty=0,
-        frequency_penalty=0
+        frequency_penalty=0,
+        stop=None
         ):
 
         response = openai.Completion.create(
@@ -139,14 +147,15 @@ class OpenAi:
             n=n,
             top_p=top_p,
             presence_penalty=presence_penalty,
-            frequency_penalty=frequency_penalty
+            frequency_penalty=frequency_penalty,
+            stop=stop
         )
 
         return response
 
-    def output(self, prompt, res):
-        upload_data_output(res['model'], '', prompt,
-                       '', res['choices'][0]['text'], res['created'])
+    def output(self, prompt, res, model_id, model_description):
+        upload_data_output(res['model'], model_description, prompt, '',
+                           res['choices'][0]['text'], res['created'])
         return
 
 

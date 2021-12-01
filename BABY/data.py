@@ -58,6 +58,14 @@ def get_data_prompt_help():
 
     return json.loads(blob.download_as_string())
 
+def get_json_output():
+    client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.get_blob(BUCKET_OUTPUT_FILE)
+
+    return json.loads(blob.download_as_string())
+
+
 def get_data_output():
     client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
     bucket = client.get_bucket(BUCKET_NAME)
