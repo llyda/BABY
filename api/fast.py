@@ -52,10 +52,10 @@ def predict(model,
     # Return error if model is wrong
     print(model)
     if model not in [
-            'ada', 'curie', 'babbage', 'davinci',
-            'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49',
-            'curie:ft-user-m3sxszpflnfvpnhlttj35ohs-2021-11-30-15-09-36',
-            'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49'
+            'Ada', 'Curie', 'Babbage', 'Davinci',
+            'Curie Rap',
+            'Curie Haiku',
+            'Curie Poems'
     ]:
         return {'response': 'Error: Wrong model... :/'}
 
@@ -102,7 +102,7 @@ def predict(model,
         # Try to return answer
 
         for customModel in customModels:
-            if customModel['id'] == model:
+            if customModel['model'] == model:
                 _temperature = customModel['temperature']
                 _presence_penalty = customModel['presence_penalty']
                 _frequency_penalty = customModel['frequency_penalty']
