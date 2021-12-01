@@ -28,7 +28,7 @@
     "id": "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",
     "description": "Curie trained for Haikus",
     "prompt": "The following is haiku written about TOPICS. It is written in the style of PERSON. Try to follow the rhyming pattern. Be creative.",
-    "apiKey": "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",
+    "apiKey": "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",
     "temperature": 0.8,
     "frequency_penalty": 0,
     "presence_penalty": 0.75,
