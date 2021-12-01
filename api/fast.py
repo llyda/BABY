@@ -103,6 +103,7 @@ def predict(model,
 
         for customModel in customModels:
             if customModel['model'] == model:
+                model = customModel['id']
                 _temperature = customModel['temperature']
                 _presence_penalty = customModel['presence_penalty']
                 _frequency_penalty = customModel['frequency_penalty']
@@ -151,7 +152,7 @@ def predict(model,
         # Output in JSON File!
         gpt3.output(_prompt, response, model, _description)
 
-        return {'response': response['choices'][0]['text']}
+        return {'response': response['choices'][0]['text'], 'prompt': _prompt}
     except Exception as e:
         # Otherwise return error
         return {'response': str(e)}
