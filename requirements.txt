@@ -55,6 +55,7 @@ typing-extensions==4.0.0
 urllib3==1.26.7
 uvicorn==0.15.0
 yarl==1.7.2
+fsspec
 
 # data science
 numpy
