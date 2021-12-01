@@ -1,13 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from BABY.OpenAi import OpenAi
+from BABY.data import get_json_output
 # from BABY.HateSpeech import HateSpeechDetector
 import os
 from dotenv import load_dotenv
+import json
 
 # API
 
 load_dotenv()
+
+ROOT_DIR = os.path.dirname(
+    os.path.abspath(__file__))  # This is your Project Root
+PATH_TO_MODELS = os.path.join(ROOT_DIR,
+                                   'models.json')
 
 SECRET = os.getenv("SECRET")
 
@@ -25,6 +32,12 @@ app.add_middleware(
 def index():
     return {"greeting": "This is BABY!"}
 
+@app.get("/output")
+def output():
+    # Get All Outputs Generated in The Past <3
+    return get_json_output()
+
+
 @app.get("/predict")
 def predict(model,
             prompt,
@@ -40,6 +53,8 @@ def predict(model,
     print(model)
     if model not in [
             'ada', 'curie', 'babbage', 'davinci',
+            'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49',
+            'curie:ft-user-m3sxszpflnfvpnhlttj35ohs-2021-11-30-15-09-36',
             'curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49'
     ]:
         return {'response': 'Error: Wrong model... :/'}
@@ -72,38 +87,69 @@ def predict(model,
     else:
         _topics = topics[0]
 
+    with open(PATH_TO_MODELS) as f:
+        customModels = json.load(f)
+
     try:
+        # Get the params from our API wrapper
+        _temperature = 1
+        _presence_penalty=0
+        _frequency_penalty=0
+        _stop=None
+        _api_key=None
+        _custom_prompt=None
+
         # Try to return answer
+
+        for customModel in customModels:
+            if customModel['id'] == model:
+                _temperature = customModel['temperature']
+                _presence_penalty = customModel['presence_penalty']
+                _frequency_penalty = customModel['frequency_penalty']
+                _stop = customModel['stop']
+                _api_key = customModel['apiKey']
+                _custom_prompt = customModel['prompt']
+                _description = customModel['description']
+
+
+        print(_temperature)
+        print(_api_key)
+
         gpt3 = OpenAi(
             model=model,
             search_model='curie',
-            max_tokens=75
+            max_tokens=75,
+            apiKey=_api_key
         )
 
-        # Get the params from our API wrapper
-        # response = gpt3.answers(
-        #     prompt,
-        #     float(temperature),
-        #     int(n),
-        #     str(_type)
-        # )
-
-        # Building Prompt HERE
+        # Building the Basic Prompt HERE
         if personality_type == 'myself':
             _prompt = f"The following is a {_type} about {_topics}"
         else:
             _prompt = f"The following is a {_type} about {_topics} by {personality_type}"
 
+        if _custom_prompt:
+            # Make the custom prompt
+            prompt_p1 = _custom_prompt.split('TOPICS')[0]
+            prompt_p2 = _custom_prompt.split('TOPICS')[1].split('PERSON')[0]
+            prompt_p3 = _custom_prompt.split('PERSON')[1]
+
+            _prompt = prompt_p1 + _topics + prompt_p2 + personality_type + prompt_p3
+
         print(_prompt)
 
         response = gpt3.completion(_prompt,
-                                   temperature=0.86,
+                                   temperature=_temperature,
                                    n=1,
                                    top_p=1,
-                                   presence_penalty=0,
-                                   frequency_penalty=0)
+                                   presence_penalty=_presence_penalty,
+                                   frequency_penalty=_frequency_penalty,
+                                   stop=_stop)
 
         print(response)
+
+        # Output in JSON File!
+        gpt3.output(_prompt, response, model, _description)
 
         return {'response': response['choices'][0]['text']}
     except Exception as e:
