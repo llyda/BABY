@@ -1,0 +1,39 @@
+[
+  {
+    "model": "Curie Poems",
+    "id": "curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49",
+    "description": "Curie trained for Classical Poems",
+    "prompt": "The following is a classical poem written about TOPICS. It is written in the style of PERSON. Try to follow the rhyming pattern. Be creative.",
+    "apiKey": "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",
+    "temperature": 0.7,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "stop": ["\"\"\"\""]
+  },
+  {
+    "model": "Curie Rap",
+    "id": "curie:ft-user-m3sxszpflnfvpnhlttj35ohs-2021-11-30-15-09-36",
+    "description": "Curie trained for Rap Songs",
+    "prompt": "The following is a rap song written about TOPICS. It is written in the style of PERSON. Try to follow the rhyming pattern. Be creative.",
+    "apiKey": "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",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ]
+  },
+  {
+    "model": "Curie Haiku",
+    "id": "curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49",
+    "description": "Curie trained for Haikus",
+    "prompt": "The following is haiku written about TOPICS. It is written in the style of PERSON. Try to follow the rhyming pattern. Be creative.",
+    "apiKey": "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",
+    "temperature": 0.8,
+    "frequency_penalty": 0,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ]
+  }
+]

@@ -6,10 +6,7 @@ raw_data/
 # *.csv
 **/__pycache__/
 .env
-*.json
-<<<<<<< HEAD
-=======
+BABY/scrapes/*.json
 data/
 my_files/
 *.txt
->>>>>>> 735a229f78cf7cbdbdc0c42ebcc9937cfe1bdb26
