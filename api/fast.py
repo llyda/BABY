@@ -17,6 +17,7 @@ PATH_TO_MODELS = os.path.join(ROOT_DIR,
                                    'models.json')
 
 SECRET = os.getenv("SECRET")
+KEYS = [os.getenv("OPEN_AI_KEY_CUSTOM_0"), os.getenv("OPEN_AI_KEY_CUSTOM_1"), os.getenv("OPEN_AI_KEY_CUSTOM_2")]
 
 app = FastAPI()
 
@@ -52,7 +53,7 @@ def predict(model,
     # Return error if model is wrong
     print(model)
     if model not in [
-            'Ada', 'Curie', 'Babbage', 'Davinci',
+            'ada', 'curie', 'babbage', 'davinci',
             'Curie Rap',
             'Curie Haiku',
             'Curie Poems'
@@ -98,7 +99,7 @@ def predict(model,
         _stop=None
         _api_key=None
         _custom_prompt=None
-
+        _description = "Base OpenAI Models"
         # Try to return answer
 
         for customModel in customModels:
@@ -108,7 +109,9 @@ def predict(model,
                 _presence_penalty = customModel['presence_penalty']
                 _frequency_penalty = customModel['frequency_penalty']
                 _stop = customModel['stop']
-                _api_key = customModel['apiKey']
+
+                _api_key = KEYS[customModel['keyId']]
+
                 _custom_prompt = customModel['prompt']
                 _description = customModel['description']
 
