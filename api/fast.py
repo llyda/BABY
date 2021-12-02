@@ -117,6 +117,7 @@ def predict(model,
 
 
         print(_temperature)
+        print(model)
         print(_api_key)
 
         gpt3 = OpenAi(

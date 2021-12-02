@@ -25,7 +25,7 @@
   },
   {
     "model": "Curie Haiku",
-    "id": "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",
+    "id": "curie:ft-user-6qfzuqjhvk29sbtb6ezmcw63-2021-11-27-16-36-49",
     "description": "Curie trained for Haikus",
     "prompt": "The following is haiku written about TOPICS. It is written in the style of PERSON. Try to follow the rhyming pattern. Be creative.",
     "temperature": 0.8,
