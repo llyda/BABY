@@ -35,7 +35,6 @@ credentials = {
 
 # Load your API key from a .env file
 # openai.api_key = os.getenv("OPEN_AI_KEY")
-# openai.api_key = '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'
 
 def get_data_prompt_help():
     client = storage.Client.from_service_account_json(PATH_TO_CREDENTIALS)
