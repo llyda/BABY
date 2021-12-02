@@ -35,5 +35,18 @@
       "\"\"\"\""
     ],
     "keyId": 2
+  },
+  {
+    "model": "Curie Rap Marco",
+    "id": "curie:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-11-30-19-59-03",
+    "description": "Curie trained for Rap",
+    "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ],
+    "keyId": 3
   }
 ]

@@ -17,7 +17,12 @@ PATH_TO_MODELS = os.path.join(ROOT_DIR,
                                    'models.json')
 
 SECRET = os.getenv("SECRET")
-KEYS = [os.getenv("OPEN_AI_KEY_CUSTOM_0"), os.getenv("OPEN_AI_KEY_CUSTOM_1"), os.getenv("OPEN_AI_KEY_CUSTOM_2")]
+KEYS = [
+    os.getenv("OPEN_AI_KEY_CUSTOM_0"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_1"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_2"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_3")
+]
 
 app = FastAPI()
 
@@ -56,7 +61,8 @@ def predict(model,
             'ada', 'curie', 'babbage', 'davinci',
             'Curie Rap',
             'Curie Haiku',
-            'Curie Poems'
+            'Curie Poems',
+            'Curie Rap Marco'
     ]:
         return {'response': 'Error: Wrong model... :/'}
 
@@ -136,10 +142,15 @@ def predict(model,
         if _custom_prompt:
             # Make the custom prompt
             prompt_p1 = _custom_prompt.split('TOPICS')[0]
-            prompt_p2 = _custom_prompt.split('TOPICS')[1].split('PERSON')[0]
-            prompt_p3 = _custom_prompt.split('PERSON')[1]
 
-            _prompt = prompt_p1 + _topics + prompt_p2 + personality_type + prompt_p3
+            if 'PERSON' in _custom_prompt:
+                prompt_p2 = _custom_prompt.split('TOPICS')[1].split('PERSON')[0]
+                prompt_p3 = _custom_prompt.split('PERSON')[1]
+
+                _prompt = prompt_p1 + _topics + prompt_p2 + personality_type + prompt_p3
+            else:
+                _prompt = _custom_prompt.split(
+                    'TOPICS')[0] + _topics + _custom_prompt.split('TOPICS')[1]
 
         print(_prompt)
 
