@@ -21,6 +21,10 @@ KEYS = [
     os.getenv("OPEN_AI_KEY_CUSTOM_0"),
     os.getenv("OPEN_AI_KEY_CUSTOM_1"),
     os.getenv("OPEN_AI_KEY_CUSTOM_2"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_3"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_3"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_3"),
+    os.getenv("OPEN_AI_KEY_CUSTOM_3"),
     os.getenv("OPEN_AI_KEY_CUSTOM_3")
 ]
 
@@ -58,11 +62,9 @@ def predict(model,
     # Return error if model is wrong
     print(model)
     if model not in [
-            'ada', 'curie', 'babbage', 'davinci',
-            'Curie Rap',
-            'Curie Haiku',
-            'Curie Poems',
-            'Curie Rap Marco'
+            'ada', 'curie', 'babbage', 'davinci', 'Curie Rap', 'Curie Haiku',
+            'Curie Poems', 'Ada the Poet', 'Curie the Rapper', 'Lifestyle Ada',
+            'Babbage the Musician'
     ]:
         return {'response': 'Error: Wrong model... :/'}
 

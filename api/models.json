@@ -37,7 +37,7 @@
     "keyId": 2
   },
   {
-    "model": "Curie Rap Marco",
+    "model": "Curie the Rapper",
     "id": "curie:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-11-30-19-59-03",
     "description": "Curie trained for Rap",
     "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
@@ -48,5 +48,57 @@
       "\"\"\"\""
     ],
     "keyId": 3
+  },
+  {
+    "model": "Ada the Poet",
+    "id": "ada:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-12-01-19-53-04",
+    "description": "Curie trained for Rap",
+    "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ],
+    "keyId": 4
+  },
+  {
+    "model": "Curie the Rapper",
+    "id": "curie:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-11-30-19-59-03",
+    "description": "Curie trained for Rap",
+    "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ],
+    "keyId": 5
+  },
+  {
+    "model": "Lifestyle Ada",
+    "id": "ada:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-12-01-09-03-54",
+    "description": "Curie trained for Rap",
+    "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ],
+    "keyId": 6
+  },
+  {
+    "model": "Babbage the Musician",
+    "id": "babbage:ft-user-r4iwcdpoxftbglfzc8c2mfn7-2021-11-30-23-52-40",
+    "description": "Curie trained for Rap",
+    "prompt": "The following is a rap song written about the TOPICS. It is written in a pompous style with a lot of rhymes.",
+    "temperature": 0.8,
+    "frequency_penalty": 0.25,
+    "presence_penalty": 0.75,
+    "stop": [
+      "\"\"\"\""
+    ],
+    "keyId": 7
   }
 ]
