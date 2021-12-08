@@ -35,11 +35,11 @@ is the sound of circuit bending with a Computer
 
 - Content + Form ----> AI GPT-3 Model -----> BABY BORN 
 
+# ONWARDS
+
 BABY is the final project that I worked on in Le Wagon with my teammates, Guillaume De Sa, Marco Zausch, Tim Seifert, during our Data Science program. 
 
 It is a project I plan to continue working on.
-
-
 
 <poem>
     
@@ -59,6 +59,7 @@ To share our feelings
 
 In a neat and tidy way"
 
-- coded by: BABY 
-
 </poem>
+
+*coded by: BABY 
+
