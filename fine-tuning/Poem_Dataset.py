@@ -20,8 +20,8 @@ def create_sentences(sentences,key,dict):
             if not isascii(item):
                 continue
             #saves the poems with style of: <|endoftext|>love: poetry about love here<|endoftext|>
-            sentences.append("<|endoftext|>\n" + key + ": " + item +
-                             "\n<|endoftext|>")
+            sentences.append("<|endoftext|>" + key + ": " + item +
+                             "<|endoftext|>")
     return sentences
 
 if __name__ == "__main__":
@@ -65,4 +65,3 @@ if __name__ == "__main__":
     validate_df = validate_df.dropna()
     train_df.to_csv("train-poet.csv")
     validate_df.to_csv("validation-poet.csv")
-
