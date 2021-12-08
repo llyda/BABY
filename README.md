@@ -64,7 +64,5 @@ In a neat and tidy way"
 
 </poem>
 
-
-
-* coded by: BABY 
+-->coded by: BABY 
 
