@@ -37,9 +37,9 @@ is the sound of circuit bending with a Computer
 
 # ONWARDS
 
-BABY is the final project that I worked on in Le Wagon with my teammates, Guillaume De Sa, Marco Zausch, Tim Seifert, during our Data Science program. 
+- BABY is the final project that I worked on in Le Wagon with my teammates, Guillaume De Sa, Marco Zausch, Tim Seifert, during our Data Science program. 
 
-It is a project I plan to continue working on.
+- It is a project I plan to continue working on.
 
 <poem>
     
@@ -61,5 +61,5 @@ In a neat and tidy way"
 
 </poem>
 
-*coded by: BABY 
+* coded by: BABY 
 
