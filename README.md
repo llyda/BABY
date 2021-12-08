@@ -61,8 +61,6 @@ The perfect phrase
 To share our feelings
 
 In a neat and tidy way"
-
+    
+           by: BABY 
 </poem>
-
-       by: BABY 
-
