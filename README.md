@@ -1,74 +1,71 @@
-# Data analysis
-- Document here the project: BABY
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# BABY
+ 
+is the sound of circuit bending with a Computer
 
-Please document the project the better you can.
+# IDEA
 
-# Startup the project
+- Can an Artificial Intelligence be creative?
+- Is is possible to change the type of influence by shifting the content of the influencer within the same context?
 
-The initial setup.
+*BABY: does understand once it's influenced
+*BABY: does not undertand without influence
+*BABY: influences based on influencers
 
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
+...then it creates poetry.
 
-Unittest test:
-```bash
-make clean install test
-```
 
-Check for BABY in gitlab.com/{group}.
-If your project is not set please add it:
+# GPT-3 [Generative Pre-trained Transformer 3]
 
-- Create a new project on `gitlab.com/{group}/BABY`
-- Then populate it:
+- Project by non-profit OpenAI
+- Deep-learning NLP model
+- Powerful, yet not conscious
+- Pretrained on approximately 750 billion tokens that is 500_000 bibles (one token = ¾ word)
+- The bility to be fine-tuned
 
-```bash
-##   e.g. if group is "{group}" and project_name is "BABY"
-git remote add origin git@github.com:{group}/BABY.git
-git push -u origin master
-git push -u origin --tags
-```
 
-Functionnal test with a script:
+# DATA 
 
-```bash
-cd
-mkdir tmp
-cd tmp
-BABY-run
-```
+- Content: 
+    Web scraping 50000+ tweets from influential profiles
+- Form: 
+    Databases: lyrics, poems, haikus (Kaggle)
+    
+# FINE-TUNING AND TRAINING
 
-# Install
+- Feeding the training data to the model
+- Finding the right parameters
+    *e.g temperature, frequency penalty
+- Prompt engineering
+- Training the model on the most fitting "prompt"
 
-Go to `https://github.com/{group}/BABY` to see the project, manage issues,
-setup you ssh public key, ...
+# PROCESS
 
-Create a python3 virtualenv and activate it:
+- Content + Form ----> AI GPT-3 Model -----> BABY BORN 
 
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
+BABY is the final project that I worked on in Le Wagon with my teammates, Guillaume De Sa, Marco Zausch, Tim Seifert, during our Data Science program. 
 
-Clone the project and install it:
+It is a project I plan to continue working on.
 
-```bash
-git clone git@github.com:{group}/BABY.git
-cd BABY
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
 
-```bash
-cd
-mkdir tmp
-cd tmp
-BABY-run
-```
+
+<poem>
+    
+"The search to find
+
+The perfect word
+
+To describe
+
+The way we feel.
+
+The search to find
+
+The perfect phrase
+
+To share our feelings
+
+In a neat and tidy way"
+
+- coded by: BABY 
+
+</poem>
