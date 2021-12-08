@@ -7,9 +7,9 @@ is the sound of circuit bending with a Computer
 - Can an Artificial Intelligence be creative?
 - Is is possible to change the type of influence by shifting the content of the influencer within the same context?
 
-*BABY: does understand once it's influenced
-*BABY: does not undertand without influence
-*BABY: influences based on influencers
+BABY: does understand once it's influenced
+BABY: does not undertand without influence
+BABY: influences based on influencers
 
 ...then it creates poetry.
 
