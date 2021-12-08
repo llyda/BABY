@@ -6,20 +6,14 @@ is the sound of circuit bending with a Computer
 
 - Can an Artificial Intelligence be creative?
 - Is is possible to change the type of influence by shifting the content of the influencer within the same context?
-
-- BABY: does understand once it's influenced
-- BABY: does not undertand without influence
-- BABY: influences based on influencers
-
 - Will BABY be able to learn the "language of influence" to know how to restructure and transform information into poetic computation?
 
 # GPT-3 [Generative Pre-trained Transformer 3]
 
 - Project by non-profit OpenAI
 - Deep-learning NLP model
-- Powerful, yet not conscious
 - Pretrained on approximately 750 billion tokens that is 500_000 bibles (one token = ¾ word)
-- The bility to be fine-tuned
+- The ability to be fine-tuned
 
 
 # DATA 
