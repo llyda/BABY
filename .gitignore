@@ -10,3 +10,4 @@ BABY/scrapes/*.json
 data/
 my_files/
 *.txt
+BABY/*.json
