@@ -45,7 +45,7 @@ BABY is the final project that I worked on in Le Wagon with my teammates, Guilla
     by: BABY
     
 
-    "The search to find
+    The search to find
 
     The perfect word
 
@@ -59,7 +59,7 @@ BABY is the final project that I worked on in Le Wagon with my teammates, Guilla
 
     To share our feelings
 
-    In a neat and tidy way."
+    In a neat and tidy way.
           
 </poem>
 
