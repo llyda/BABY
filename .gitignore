@@ -11,3 +11,4 @@ data/
 my_files/
 *.txt
 BABY/*.json
+BABY/fine-tuning/Poem_Dataset.py
